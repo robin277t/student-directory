@@ -19,14 +19,7 @@ def print_header
 end
 
 def print(names)
-   #names.each_with_index {|student,idx| puts "#{idx+1}. #{student[:name]} (#{student[:cohort]} cohort)" if student[:name].length < 12 }
-   #if student[:name][0].downcase == "s" }  
-   i = 0
-    while i <= names.count
-        puts names[i]
-        #puts "#{names[:name][i]} (#{names[:cohort][i]} cohort)"
-        i += 1
-    end
+    names.each {|student| puts "#{student[:name]} (#{student[:cohort]} cohort)"}
 end
 
 def print_footer(names)
@@ -39,7 +32,7 @@ def input_students
     students = []
     name = gets.chomp
     while !name.empty? do
-       students<<{name: name, cohort: :november} 
+       students <<{name: name, cohort: :november} 
        puts "Now we have #{students.count} students"
        name = gets.chomp
     end
