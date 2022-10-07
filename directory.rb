@@ -19,30 +19,40 @@ def print_header
 end
 
 def print(names)
-   #names.each_with_index {|student,idx| puts "#{idx+1}. #{student[:name]} (#{student[:cohort]} cohort)" if student[:name].length < 12 }
-   #if student[:name][0].downcase == "s" }  
-   i = 0
-    while i <= names.count
-        puts names[i]
-        #puts "#{names[:name][i]} (#{names[:cohort][i]} cohort)"
-        i += 1
-    end
+  new_arr = names.uniq.map { |nam| y = nam[:cohort] }
+  new_arr.uniq.each do |j| 
+      puts "#{j} cohort students:"
+      names.each {|c| p c[:name] if c[:cohort] == j}
+  end
+     # puts names.each {|x| x[:name] if x[:cohort] == y}
+     
+  #names.each_with_index {|student,idx| puts "#{idx+1}. #{student[:name]} (#{student[:cohort]} cohort)" }
+  
 end
 
 def print_footer(names)
-    puts "Overall, we have #{names.count} great students"
+    names.count == 1 ? str = "student" : str = "students"
+    puts "Overall, we have #{names.count} great #{str}".center(50)
+    #puts str.methods.sort
 end
 
 
 def input_students
-    puts "Please enter the names of the students\nTo finish, just hit return twice"
+    puts "Please enter the names of the students\nTo finish, just hit return thrice"
     students = []
     name = gets.chomp
+    puts "Enter your cohort"
+    cohort = gets.strip
+    cohort = :jan if cohort.empty?
     while !name.empty? do
-       students<<{name: name, cohort: :november} 
-       puts "Now we have #{students.count} students"
+       students<<{:name => name, :cohort => cohort}
+       puts "Now we have #{students.count} students, enter another name"
        name = gets.chomp
+       puts "enter the next cohort"
+       cohort = gets.chomp.to_sym
+       cohort = :jan if cohort.empty?
     end
+    #p students
     return students
 end
 
