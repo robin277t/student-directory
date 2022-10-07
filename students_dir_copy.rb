@@ -4,26 +4,29 @@ def input_students
   puts "Please enter the names of the students\nTo finish, just hit return twice"
   name = STDIN.gets.chomp
   while !name.empty? do
-  @students << {:name => name, :cohort => :november}
+  insertion(name)
   puts "Now we have #{@students.count} students"
   name = STDIN.gets.chomp
   end
   return @students
 end
 
+def insertion(x,y = :november)
+     @students << {:name => x, :cohort => y.to_sym}
+end
+
 def load_students(filename = "students.csv")
     file = File.open(filename, "r")
     file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
-        @students << {:name => name, :cohort => cohort.to_sym}
+        insertion(name, cohort)
     end
     file.close
 end
 
 
 def print_header
-  puts "The students of my cohort at Makers Academy"
-  puts "-------------"
+  puts "The students of my cohort at Makers Academy\n-------------"
 end
 
 def print_student_list(names)
@@ -58,14 +61,19 @@ end
 def process(selection)
     case selection
         when "1"
+            puts "you chose 1"
             @students = input_students
         when "2"
+            puts "you chose 2"
             show_students
         when "3"
+            puts "you chose 3"
             save_students
         when "4"
+            puts "you chose 4"
             load_students
         when "9"
+            puts "you have successfully exited the app"
             exit
         else 
             puts "I don't know what you meant, try again"
@@ -82,11 +90,9 @@ def save_students
     file.close
 end
 
-
-
 def try_load_students
     filename = ARGV.first
-    return if filename.nil?
+    filename = "students.csv" if filename.nil?
     if File.exist?(filename)
         load_students(filename)
         puts "Loaded #{@students.count} from #{filename}"
