@@ -16,12 +16,12 @@ def insertion(x,y = :november)
 end
 
 def load_students(filename = "students.csv")
-    file = File.open(filename, "r")
-    file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-        insertion(name, cohort)
+    File.open(filename, "r") do |f| 
+        f.readlines.each do |line|
+            name, cohort = line.chomp.split(',')
+            insertion(name, cohort)
+        end
     end
-    file.close
 end
 
 
@@ -81,13 +81,13 @@ def process(selection)
 end
 
 def save_students
-    file = File.open("students.csv", "w")
-    @students.each do |student|
-        student_data = [student[:name], student[:cohort]]
-        csv_line = student_data.join(",")
-        file.puts csv_line
+    File.open("students.csv", "w") do |f|
+        @students.each do |student|
+            student_data = [student[:name], student[:cohort]]
+            csv_line = student_data.join(",")
+            f.puts csv_line
+        end
     end
-    file.close
 end
 
 def try_load_students
