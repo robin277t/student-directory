@@ -1,20 +1,22 @@
+@students = []
+
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   # create an empty array
-  students = []
+  #students = []
   # get the first name
   name = gets.chomp
   # while the name is not empty, repeat this code
   while !name.empty? do
   # add the student hash to the array
-  students << {:name => name, :cohort => :november}
-  puts "Now we have #{students.count} students"
+  @students << {:name => name, :cohort => :november}
+  puts "Now we have #{@students.count} students"
   # get another name from the user
   name = gets.chomp
   end
   # return the array of students
-  return students
+  return @students
 end
 
 def print_header
@@ -22,7 +24,7 @@ def print_header
   puts "-------------"
 end
 
-def print(names)
+def print_student_list(names)
   names.each {|stu| puts "#{stu[:name]} (#{stu[:cohort]} cohort)"}
 end
 
@@ -30,38 +32,49 @@ def print_footer(names)
   puts "Overall, we have #{names.count} great students"
 end
 
-#students = input_students
+def print_menu
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "3. Save students to file"
+    puts "9. Exit"
+end
 
-#if students[0] != nil
-#  print_header
-#  print(students)
-#  print_footer(students)
-#end
+def show_students
+    print_header
+    print_student_list(@students)
+    print_footer(@students)
+end
 
 def interactive_menu
-    #students = []
     loop do
-        puts "1. Input the students"
-        puts "2. Show the students"
-        puts "9. Exit"
-        
-        selection = gets.chomp
-        
-        case selection
-            when "1"
-                students = input_students
-            when "2"
-                print_header
-                print(students)
-                print_footer(students)
-            when "3"
-                #
-            when "9"
-                exit
-            else 
-                puts "I don't know what you meant, try again"
-        end
+        print_menu
+        process(gets.chomp)
     end
+end
+
+def process(selection)
+    case selection
+        when "1"
+            @students = input_students
+        when "2"
+            show_students
+        when "3"
+            save_students
+        when "9"
+            exit
+        else 
+            puts "I don't know what you meant, try again"
+    end
+end
+
+def save_students
+    file = File.open("students.csv", "w")
+    @students.each do |student|
+        student_data = [student[:name], student[:cohort]]
+        csv_line = student_data.join(",")
+        file.puts csv_line
+    end
+    file.close
 end
 
 interactive_menu
